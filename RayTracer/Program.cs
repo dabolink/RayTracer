@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
 
 namespace RayTracer
@@ -34,22 +32,30 @@ namespace RayTracer
             int width = 1000;
             int height = 1000;
             // Create Camera
-            Camera c = new Camera(new Position(10, 1, -5), new Position(0,0,0));
+            Camera c = new Camera(new Position(0, 0, -5), new Position(0,0,0));
 
             //create colors
             Color BGColor = new Color(255, 255, 255, 0);
-
+            Color BLACK = new Color(0, 0, 0);
+            Color WHITE = new Color(255, 255, 255);
             //create Objects in frame
 
             //red plane at below 10 units
             Object p = new Plane(new Vector(0,1,0), -1, new Color(255,0,0,0));
             //blue sphere 10 units ahead radis 0.5
-            Object s = new Sphere(2, new Position(0, 0, 0), new Color(0, 125, 125, 0));
+            Object s = new Sphere(0.5, new Position(0, 0, 0), new Color(0, 125, 125, 0));
 
             //add Objects to list
             LinkedList<Object> objects = new LinkedList<Object>();
             objects.AddLast(s);
             objects.AddLast(p);
+
+            //add Light Sources
+            LightSource light = new LightSource(new Position(5, -5, 5), WHITE);
+
+            //add lightsources to linked list
+            LinkedList<LightSource> lightsources = new LinkedList<LightSource>();
+            lightsources.AddLast(light);
 
             // Create Pixels
             Color[,] pixels = new Color[width, height];
@@ -108,7 +114,26 @@ namespace RayTracer
                         }
                         if(winner.val > 0)
                         {
-                            pixels[x, y] = winner.obj.color;
+                            Color final_color = winner.obj.color;
+                            Position intersection_point = ray.origin + (ray.direction * (winner.val*0.999));
+                            foreach (LightSource l in lightsources)
+                            {
+                                Boolean shadowed = false;
+                                Ray shadow_ray = new Ray(intersection_point, new Vector(l.origin, intersection_point).normalize());
+                                foreach(Object o in objects)
+                                {
+                                    double obj_intersection = o.find_intersection(shadow_ray);
+                                    if(!(obj_intersection == -1))
+                                    {
+                                        shadowed = true;
+                                    }
+                                }
+                                if (shadowed)
+                                {
+                                    final_color += (l.color * (1 / lightsources.Count));
+                                }
+                            }
+                            pixels[x, y] = final_color.clip();
                         }
                         else
                         {
@@ -134,7 +159,8 @@ namespace RayTracer
             {
                 for (int j = 0; j < height; j++)
                 {
-                    bmp.SetPixel(i, j, System.Drawing.Color.FromArgb(pixels[i,j].r, pixels[i,j].g, pixels[i,j].b));
+                 
+                    bmp.SetPixel(i, j, System.Drawing.Color.FromArgb(pixels[i, j].r, pixels[i, j].g, pixels[i, j].b));
                 }
             }
             bmp.Save("raytracer.png", System.Drawing.Imaging.ImageFormat.Png);

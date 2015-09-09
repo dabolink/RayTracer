@@ -10,7 +10,7 @@ namespace RayTracer
             this.normal = normal;
             this.color = color;
         }
-        public override Vector getNormalAt()
+        public override Vector getNormalAt(Position point)
         {
             return normal;
         }

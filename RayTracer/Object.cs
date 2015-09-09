@@ -11,7 +11,7 @@ namespace RayTracer
         public Vector normal { get; set; }
         public Color color { get; set; }
 
-        public virtual Vector getNormalAt()
+        public virtual Vector getNormalAt(Position point)
         {
             return normal;
         }

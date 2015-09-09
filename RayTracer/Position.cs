@@ -1,6 +1,6 @@
 ﻿namespace RayTracer
 {
-    public class Position
+    class Position
     {
         public Position(double x, double y, double z)
         {
@@ -14,6 +14,10 @@
         public override string ToString()
         {
             return "(" + x + "," + y + "," + z + ")";
+        }
+        public static Position operator+(Position p, Vector v)
+        {
+            return new Position(v.x + p.x, v.y + p.y, v.z + p.z);
         }
     }
 }
