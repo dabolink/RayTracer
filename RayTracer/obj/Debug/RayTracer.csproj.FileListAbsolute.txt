@@ -1,0 +1,6 @@
+D:\Projects\CSharp\RayTracer\RayTracer\bin\Debug\RayTracer.exe.config
+D:\Projects\CSharp\RayTracer\RayTracer\bin\Debug\RayTracer.exe
+D:\Projects\CSharp\RayTracer\RayTracer\bin\Debug\RayTracer.pdb
+D:\Projects\CSharp\RayTracer\RayTracer\obj\Debug\RayTracer.csprojResolveAssemblyReference.cache
+D:\Projects\CSharp\RayTracer\RayTracer\obj\Debug\RayTracer.exe
+D:\Projects\CSharp\RayTracer\RayTracer\obj\Debug\RayTracer.pdb
