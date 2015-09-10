@@ -33,7 +33,7 @@ namespace RayTracer
             int height = 1000;
             // Create Camera
             Camera c = new Camera(new Position(0, 0, -5), new Position(0,0,0));
-
+            
             //create colors
             Color BGColor = new Color(255, 255, 255, 0);
             Color BLACK = new Color(0, 0, 0);
@@ -56,6 +56,9 @@ namespace RayTracer
             //add lightsources to linked list
             LinkedList<LightSource> lightsources = new LinkedList<LightSource>();
             lightsources.AddLast(light);
+
+            //create lighting variables
+            double ambient_light = 0.15;
 
             // Create Pixels
             Color[,] pixels = new Color[width, height];
@@ -114,23 +117,38 @@ namespace RayTracer
                         }
                         if(winner.val > 0)
                         {
-                            Color final_color = winner.obj.color;
-                            Position intersection_point = ray.origin + (ray.direction * (winner.val*0.999));
+                            Color final_color = winner.obj.color * ambient_light;
+                            Position intersection_point = ray.origin + (ray.direction * (winner.val*0.99));
                             foreach (LightSource l in lightsources)
                             {
                                 Boolean shadowed = false;
-                                Ray shadow_ray = new Ray(intersection_point, new Vector(l.origin, intersection_point).normalize());
+                                Vector light_direction = new Vector(l.origin, intersection_point).normalize();
+                                Ray shadow_ray = new Ray(intersection_point, light_direction);
                                 foreach(Object o in objects)
                                 {
                                     double obj_intersection = o.find_intersection(shadow_ray);
-                                    if(!(obj_intersection == -1))
+                                    if(obj_intersection > 0)
                                     {
                                         shadowed = true;
                                     }
                                 }
-                                if (shadowed)
+                                Vector Winner_obj_normal = winner.obj.getNormalAt(intersection_point);
+                                double cosine_angle = Winner_obj_normal.dot(light_direction);
+                                if (cosine_angle > 0)
                                 {
-                                    final_color += (l.color * (1 / lightsources.Count));
+                                    if (!shadowed)
+                                    {
+
+                                        final_color += winner.obj.color * l.color * cosine_angle;
+                                        Vector reflection_direction = (-ray.direction + ((Winner_obj_normal * (Winner_obj_normal.dot(ray.direction)) + ray.direction)) * 2).normalize();
+
+                                        double specular = reflection_direction.dot(light_direction);
+                                        if (specular > 0)
+                                        {
+                                            specular = Math.Pow(specular, 10);
+                                            final_color += l.color * specular;
+                                        } 
+                                    }
                                 }
                             }
                             pixels[x, y] = final_color.clip();
@@ -160,7 +178,7 @@ namespace RayTracer
                 for (int j = 0; j < height; j++)
                 {
                  
-                    bmp.SetPixel(i, j, System.Drawing.Color.FromArgb(pixels[i, j].r, pixels[i, j].g, pixels[i, j].b));
+                    bmp.SetPixel(i, j, System.Drawing.Color.FromArgb((int)pixels[i, j].r, (int)pixels[i, j].g, (int)pixels[i, j].b));
                 }
             }
             bmp.Save("raytracer.png", System.Drawing.Imaging.ImageFormat.Png);

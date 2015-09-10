@@ -35,7 +35,7 @@ namespace RayTracer
         }
         public override Vector getNormalAt(Position point)
         {
-            return new Vector(0, 1, 0);
+            return new Vector(point ,center);
         }
     }
 }
