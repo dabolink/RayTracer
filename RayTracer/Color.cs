@@ -13,11 +13,11 @@ namespace RayTracer
             s = special;
         }
 
-        public Color(double v1, double v2, double v3)
+        public Color(double r, double g, double b)
         {
-            this.r = v1;
-            this.g = v2;
-            this.b = v3;
+            this.r = r;
+            this.g = g;
+            this.b = b;
             this.s = 0;
         }
 

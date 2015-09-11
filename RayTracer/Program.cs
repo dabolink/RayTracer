@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
 using System.Drawing;
+using System.IO;
 
 namespace RayTracer
 {
@@ -32,30 +34,39 @@ namespace RayTracer
             int width = 1000;
             int height = 1000;
             // Create Camera
-            Camera c = new Camera(new Position(0, 0, -5), new Position(0,0,0));
+            Camera c = new Camera(new Position(0, 0, -10), new Position(0,0,0));
             
             //create colors
-            Color BGColor = new Color(255, 255, 255, 0);
+            Color BGColor = new Color(0, 0, 0);
             Color BLACK = new Color(0, 0, 0);
             Color WHITE = new Color(255, 255, 255);
+            Color GREEN = new Color(0, 255, 0);
+            Color YELLOW = new Color(255, 255, 0);
+            Color ORANGE = new Color(255, 0, 255);
+            Color RED = new Color(200, 0, 0);
+            Color BLUE = new Color(0, 0, 255);
             //create Objects in frame
 
             //red plane at below 10 units
-            Object p = new Plane(new Vector(0,1,0), -1, new Color(255,0,0,0));
+            Object p1 = new Plane(new Vector(0, 1, 0), -1, RED);
             //blue sphere 10 units ahead radis 0.5
-            Object s = new Sphere(0.5, new Position(0, 0, 0), new Color(0, 125, 125, 0));
+            Object s1 = new Sphere(1, new Position(0, 0, 0), BLACK);
+            Object s2 = new Sphere(1, new Position(2, 0, 0), ORANGE);
 
             //add Objects to list
             LinkedList<Object> objects = new LinkedList<Object>();
-            objects.AddLast(s);
-            objects.AddLast(p);
+            objects.AddLast(s1);
+            objects.AddLast(p1);
+            objects.AddLast(s2);
 
             //add Light Sources
-            LightSource light = new LightSource(new Position(5, -5, 5), WHITE);
+            LightSource l1 = new LightSource(new Position(20, 5, 10), WHITE);
+            LightSource l2 = new LightSource(new Position(-20, 5, 10), BLUE);
 
             //add lightsources to linked list
             LinkedList<LightSource> lightsources = new LinkedList<LightSource>();
-            lightsources.AddLast(light);
+            lightsources.AddLast(l1);
+            lightsources.AddLast(l2);
 
             //create lighting variables
             double ambient_light = 0.15;
@@ -90,17 +101,6 @@ namespace RayTracer
                     {
                         pixels[x, y] = BGColor;
                     }
-                    else if(intersection_objects.Count == 1)
-                    {
-                        if(intersection_objects.First().val > 0)
-                        {
-                            pixels[x, y] = intersection_objects.First().obj.color;
-                        }
-                        else
-                        {
-                            pixels[x, y] = BGColor;
-                        }
-                    }
                     else
                     {
                         ObjectPair winner = new ObjectPair(null, -1);
@@ -117,12 +117,12 @@ namespace RayTracer
                         }
                         if(winner.val > 0)
                         {
-                            Color final_color = winner.obj.color * ambient_light;
-                            Position intersection_point = ray.origin + (ray.direction * (winner.val*0.99));
+                            Color final_color = winner.obj.color;
+                            Position intersection_point = ray.origin + (ray.direction * (winner.val*0.999));
                             foreach (LightSource l in lightsources)
                             {
                                 Boolean shadowed = false;
-                                Vector light_direction = new Vector(l.origin, intersection_point).normalize();
+                                Vector light_direction = new Vector(intersection_point, l.origin).normalize();
                                 Ray shadow_ray = new Ray(intersection_point, light_direction);
                                 foreach(Object o in objects)
                                 {
@@ -130,25 +130,29 @@ namespace RayTracer
                                     if(obj_intersection > 0)
                                     {
                                         shadowed = true;
+                                        break;
                                     }
                                 }
-                                Vector Winner_obj_normal = winner.obj.getNormalAt(intersection_point);
-                                double cosine_angle = Winner_obj_normal.dot(light_direction);
-                                if (cosine_angle > 0)
+
+                                if (!shadowed)
                                 {
-                                    if (!shadowed)
+
+                                    Vector Winner_obj_normal = winner.obj.getNormalAt(intersection_point);
+                                    double diffuse_coeffient = (shadow_ray.direction.dot(Winner_obj_normal));
+                                    Vector reflection_direction = shadow_ray.direction - (2 * (shadow_ray.direction.dot(Winner_obj_normal)/Winner_obj_normal.magnitude()*Winner_obj_normal));
+                                    Ray reflection = new Ray(intersection_point, reflection_direction);
+
+                                    double specular_coefficient = reflection.direction.dot(ray.direction);
+                                    final_color += l.color * 0.15;
+                                    if(diffuse_coeffient > 0)
                                     {
-
-                                        final_color += winner.obj.color * l.color * cosine_angle;
-                                        Vector reflection_direction = (-ray.direction + ((Winner_obj_normal * (Winner_obj_normal.dot(ray.direction)) + ray.direction)) * 2).normalize();
-
-                                        double specular = reflection_direction.dot(light_direction);
-                                        if (specular > 0)
-                                        {
-                                            specular = Math.Pow(specular, 10);
-                                            final_color += l.color * specular;
-                                        } 
+                                        final_color += l.color * diffuse_coeffient * 0.15;
                                     }
+                                    if(specular_coefficient > 0)
+                                    {
+                                        final_color += l.color * Math.Pow(specular_coefficient, 1000);
+                                    }
+
                                 }
                             }
                             pixels[x, y] = final_color.clip();
@@ -163,8 +167,10 @@ namespace RayTracer
 
             //create image
             CreateImg(pixels);
-            Console.WriteLine("Press any key to exit.");
-            Console.ReadKey();
+            Process photoViewer = Process.Start("RayTracer.png");
+            //prompt for exit
+            //Console.WriteLine("Press any key to exit.");
+            //Console.ReadKey();
         }
 
         private static void CreateImg(Color[,] pixels)

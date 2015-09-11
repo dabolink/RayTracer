@@ -46,6 +46,10 @@ namespace RayTracer
         {
             return new Vector(v.x * s, v.y * s, v.z * s);
         }
+        public static Vector operator *(double s, Vector v)
+        {
+            return v * s;
+        }
         public static Vector operator -(Vector v, Position p)
         {
             return new Vector(v.x - p.x, v.y - p.y, v.z - p.z);
