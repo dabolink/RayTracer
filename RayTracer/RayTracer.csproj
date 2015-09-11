@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{0E34845F-2794-432F-815F-35479551D045}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>RayTracer</RootNamespace>
     <AssemblyName>RayTracer</AssemblyName>
@@ -52,11 +52,19 @@
     <Compile Include="Color.cs" />
     <Compile Include="LightSource.cs" />
     <Compile Include="Object.cs" />
+    <Compile Include="ObjectForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="ObjectPair.cs" />
     <Compile Include="Plane.cs" />
     <Compile Include="Position.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Ray.cs" />
     <Compile Include="RayTracer_Form.cs">
       <SubType>Form</SubType>
@@ -68,6 +76,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="ObjectForm.resx">
+      <DependentUpon>ObjectForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="RayTracer_Form.resx">
       <DependentUpon>RayTracer_Form.cs</DependentUpon>
     </EmbeddedResource>

@@ -12,3 +12,7 @@ C:\Projects\RayTracer\RayTracer\bin\Debug\RayTracer.pdb
 C:\Projects\RayTracer\RayTracer\obj\Debug\RayTracer.csprojResolveAssemblyReference.cache
 D:\Projects\CSharp\RayTracer\RayTracer\obj\Debug\RayTracer.RayTracer_Form.resources
 D:\Projects\CSharp\RayTracer\RayTracer\obj\Debug\RayTracer.csproj.GenerateResource.Cache
+C:\Projects\RayTracer\RayTracer\obj\Debug\RayTracer.RayTracer_Form.resources
+C:\Projects\RayTracer\RayTracer\obj\Debug\RayTracer.csproj.GenerateResource.Cache
+C:\Projects\RayTracer\RayTracer\obj\Debug\RayTracer.Properties.Resources.resources
+C:\Projects\RayTracer\RayTracer\obj\Debug\RayTracer.ObjectForm.resources

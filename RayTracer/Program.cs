@@ -16,12 +16,12 @@ namespace RayTracer
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new RayTracer_Form());
         }
-        static void run_raytracer() {
+        public static Bitmap run_raytracer(LinkedList<Object> objects, LinkedList<LightSource> lights) {
             Console.WriteLine("Daniel Bolink's Ray Tracer");
 
             //image size
-            int width = 1000;
-            int height = 1000;
+            int width = 500;
+            int height = 500;
             // Create Camera
             Camera c = new Camera(new Position(0, 0, -10), new Position(0,0,0));
             
@@ -43,19 +43,18 @@ namespace RayTracer
             Object s2 = new Sphere(1, new Position(2, 0, 0), ORANGE);
 
             //add Objects to list
-            LinkedList<Object> objects = new LinkedList<Object>();
-            objects.AddLast(s1);
-            objects.AddLast(p1);
-            objects.AddLast(s2);
+            //objects.AddLast(s1);
+            //objects.AddLast(p1);
+            //objects.AddLast(s2);
 
             //add Light Sources
             LightSource l1 = new LightSource(new Position(20, 5, 10), WHITE);
             LightSource l2 = new LightSource(new Position(-20, 5, 10), BLUE);
 
             //add lightsources to linked list
-            LinkedList<LightSource> lightsources = new LinkedList<LightSource>();
+            LinkedList<LightSource> lightsources = lights;
             lightsources.AddLast(l1);
-            lightsources.AddLast(l2);
+            //lightsources.AddLast(l2);
 
             //create lighting variables
             double ambient_light = 0.15;
@@ -155,14 +154,15 @@ namespace RayTracer
             }
 
             //create image
-            CreateImg(pixels);
-            Process photoViewer = Process.Start("RayTracer.png");
+            Bitmap bmp = CreateImg(pixels);
+            //Process photoViewer = Process.Start("RayTracer.png");
             //prompt for exit
             //Console.WriteLine("Press any key to exit.");
             //Console.ReadKey();
+            return bmp;
         }
 
-        private static void CreateImg(Color[,] pixels)
+        private static Bitmap CreateImg(Color[,] pixels)
         {
             int width = pixels.GetLength(0);
             int height = pixels.GetLength(1);
@@ -177,7 +177,7 @@ namespace RayTracer
                 }
             }
             bmp.Save("raytracer.png", System.Drawing.Imaging.ImageFormat.Png);
-            bmp.Dispose();
+            return bmp;
         }
     }
 }
