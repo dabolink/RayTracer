@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Drawing;
 using System.IO;
+using System.Windows.Forms;
 
 namespace RayTracer
 {
@@ -11,24 +12,12 @@ namespace RayTracer
     {
         static void Main(string[] args)
         {
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new RayTracer_Form());
+        }
+        static void run_raytracer() {
             Console.WriteLine("Daniel Bolink's Ray Tracer");
-            //Read File
-            //String filename = Console.ReadLine();
-            //if (!filename.EndsWith(".txt")){
-            //    filename += ".txt";
-            //}
-            //Console.WriteLine(filename);
-            //try {
-            //    string[] lines = System.IO.File.ReadAllLines(filename);
-            //    foreach (string line in lines)
-            //    {
-            //        Console.WriteLine(line);
-            //    }
-            //}
-            //catch(System.IO.FileNotFoundException)
-            //{
-            //    Console.WriteLine("File Not Found");
-            //}
 
             //image size
             int width = 1000;
