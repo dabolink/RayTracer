@@ -16,14 +16,14 @@ namespace RayTracer
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new RayTracer_Form());
         }
-        public static Bitmap run_raytracer(LinkedList<Object> objects, LinkedList<LightSource> lights) {
+        public static Bitmap run_raytracer(LinkedList<Object> objects, LinkedList<LightSource> lights, Camera c) {
             Console.WriteLine("Daniel Bolink's Ray Tracer");
 
             //image size
             int width = 500;
             int height = 500;
             // Create Camera
-            Camera c = new Camera(new Position(0, 0, -10), new Position(0,0,0));
+            //Camera c = new Camera(new Position(0, 0, -10), new Position(0,0,0));
             
             //create colors
             Color BGColor = new Color(0, 0, 0);
@@ -53,12 +53,9 @@ namespace RayTracer
 
             //add lightsources to linked list
             LinkedList<LightSource> lightsources = lights;
-            lightsources.AddLast(l1);
+            //lightsources.AddLast(l1);
             //lightsources.AddLast(l2);
-
-            //create lighting variables
-            double ambient_light = 0.15;
-
+            
             // Create Pixels
             Color[,] pixels = new Color[width, height];
             
@@ -126,7 +123,7 @@ namespace RayTracer
                                 {
 
                                     Vector Winner_obj_normal = winner.obj.getNormalAt(intersection_point);
-                                    double diffuse_coeffient = (shadow_ray.direction.dot(Winner_obj_normal));
+                                    double diffuse_coeffient = (shadow_ray.direction.normalize().dot(Winner_obj_normal));
                                     Vector reflection_direction = shadow_ray.direction - (2 * (shadow_ray.direction.dot(Winner_obj_normal)/Winner_obj_normal.magnitude()*Winner_obj_normal));
                                     Ray reflection = new Ray(intersection_point, reflection_direction);
 

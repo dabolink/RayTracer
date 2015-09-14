@@ -15,14 +15,15 @@ namespace RayTracer
         private TextBox color_txtbox_b;
         private TextBox color_txtbox_g;
         private TextBox color_txtbox_r;
-        private Label sphere_label_comma3;
-        private Label sphere_label_comma4;
         private Label sphere_label_color;
         private Label sphere_label_radius;
         private TextBox sphere_txtbox_radius;
         private ComboBox comboBox1;
         private Label plane_label_normal;
         private Label plane_label_distance;
+        private Label label1;
+        private Label label2;
+        private Label label3;
         private RayTracer_Form parent;
         public ObjectForm(RayTracer_Form parent)
         {
@@ -42,13 +43,14 @@ namespace RayTracer
             this.color_txtbox_b = new System.Windows.Forms.TextBox();
             this.color_txtbox_g = new System.Windows.Forms.TextBox();
             this.color_txtbox_r = new System.Windows.Forms.TextBox();
-            this.sphere_label_comma3 = new System.Windows.Forms.Label();
-            this.sphere_label_comma4 = new System.Windows.Forms.Label();
             this.sphere_label_color = new System.Windows.Forms.Label();
             this.sphere_label_radius = new System.Windows.Forms.Label();
             this.sphere_txtbox_radius = new System.Windows.Forms.TextBox();
             this.plane_label_normal = new System.Windows.Forms.Label();
             this.plane_label_distance = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // comboBox1
@@ -63,10 +65,11 @@ namespace RayTracer
             this.comboBox1.Size = new System.Drawing.Size(128, 21);
             this.comboBox1.TabIndex = 0;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            this.comboBox1.SelectedIndex = 0;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(197, 226);
+            this.button1.Location = new System.Drawing.Point(149, 153);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 1;
@@ -85,32 +88,33 @@ namespace RayTracer
             // 
             // txtbox_x
             // 
-            this.txtbox_x.Location = new System.Drawing.Point(73, 57);
+            this.txtbox_x.Location = new System.Drawing.Point(197, 54);
             this.txtbox_x.Name = "txtbox_x";
-            this.txtbox_x.Size = new System.Drawing.Size(17, 20);
+            this.txtbox_x.Size = new System.Drawing.Size(29, 20);
             this.txtbox_x.TabIndex = 3;
             this.txtbox_x.Text = "0";
             // 
             // txtbox_y
             // 
-            this.txtbox_y.Location = new System.Drawing.Point(96, 57);
+            this.txtbox_y.Location = new System.Drawing.Point(136, 54);
             this.txtbox_y.Name = "txtbox_y";
-            this.txtbox_y.Size = new System.Drawing.Size(17, 20);
+            this.txtbox_y.Size = new System.Drawing.Size(29, 20);
             this.txtbox_y.TabIndex = 4;
             this.txtbox_y.Text = "0";
+            this.txtbox_y.TextChanged += new System.EventHandler(this.txtbox_y_TextChanged);
             // 
             // txtbox_z
             // 
-            this.txtbox_z.Location = new System.Drawing.Point(119, 57);
+            this.txtbox_z.Location = new System.Drawing.Point(84, 54);
             this.txtbox_z.Name = "txtbox_z";
-            this.txtbox_z.Size = new System.Drawing.Size(17, 20);
+            this.txtbox_z.Size = new System.Drawing.Size(29, 20);
             this.txtbox_z.TabIndex = 5;
             this.txtbox_z.Text = "0";
             // 
             // sphere_label_comma1
             // 
             this.sphere_label_comma1.AutoSize = true;
-            this.sphere_label_comma1.Location = new System.Drawing.Point(90, 65);
+            this.sphere_label_comma1.Location = new System.Drawing.Point(121, 61);
             this.sphere_label_comma1.Name = "sphere_label_comma1";
             this.sphere_label_comma1.Size = new System.Drawing.Size(10, 13);
             this.sphere_label_comma1.TabIndex = 6;
@@ -119,7 +123,7 @@ namespace RayTracer
             // sphere_label_comma2
             // 
             this.sphere_label_comma2.AutoSize = true;
-            this.sphere_label_comma2.Location = new System.Drawing.Point(111, 65);
+            this.sphere_label_comma2.Location = new System.Drawing.Point(174, 61);
             this.sphere_label_comma2.Name = "sphere_label_comma2";
             this.sphere_label_comma2.Size = new System.Drawing.Size(10, 13);
             this.sphere_label_comma2.TabIndex = 7;
@@ -127,45 +131,27 @@ namespace RayTracer
             // 
             // color_txtbox_b
             // 
-            this.color_txtbox_b.Location = new System.Drawing.Point(119, 103);
+            this.color_txtbox_b.Location = new System.Drawing.Point(197, 103);
             this.color_txtbox_b.Name = "color_txtbox_b";
-            this.color_txtbox_b.Size = new System.Drawing.Size(17, 20);
+            this.color_txtbox_b.Size = new System.Drawing.Size(27, 20);
             this.color_txtbox_b.TabIndex = 10;
-            this.color_txtbox_b.Text = "0";
+            this.color_txtbox_b.Text = "255";
             // 
             // color_txtbox_g
             // 
-            this.color_txtbox_g.Location = new System.Drawing.Point(96, 103);
+            this.color_txtbox_g.Location = new System.Drawing.Point(138, 103);
             this.color_txtbox_g.Name = "color_txtbox_g";
-            this.color_txtbox_g.Size = new System.Drawing.Size(17, 20);
+            this.color_txtbox_g.Size = new System.Drawing.Size(27, 20);
             this.color_txtbox_g.TabIndex = 9;
-            this.color_txtbox_g.Text = "0";
+            this.color_txtbox_g.Text = "255";
             // 
             // color_txtbox_r
             // 
-            this.color_txtbox_r.Location = new System.Drawing.Point(73, 103);
+            this.color_txtbox_r.Location = new System.Drawing.Point(86, 103);
             this.color_txtbox_r.Name = "color_txtbox_r";
-            this.color_txtbox_r.Size = new System.Drawing.Size(17, 20);
+            this.color_txtbox_r.Size = new System.Drawing.Size(27, 20);
             this.color_txtbox_r.TabIndex = 8;
-            this.color_txtbox_r.Text = "0";
-            // 
-            // sphere_label_comma3
-            // 
-            this.sphere_label_comma3.AutoSize = true;
-            this.sphere_label_comma3.Location = new System.Drawing.Point(90, 111);
-            this.sphere_label_comma3.Name = "sphere_label_comma3";
-            this.sphere_label_comma3.Size = new System.Drawing.Size(10, 13);
-            this.sphere_label_comma3.TabIndex = 11;
-            this.sphere_label_comma3.Text = ",";
-            // 
-            // sphere_label_comma4
-            // 
-            this.sphere_label_comma4.AutoSize = true;
-            this.sphere_label_comma4.Location = new System.Drawing.Point(111, 111);
-            this.sphere_label_comma4.Name = "sphere_label_comma4";
-            this.sphere_label_comma4.Size = new System.Drawing.Size(10, 13);
-            this.sphere_label_comma4.TabIndex = 12;
-            this.sphere_label_comma4.Text = ",";
+            this.color_txtbox_r.Text = "255";
             // 
             // sphere_label_color
             // 
@@ -211,9 +197,37 @@ namespace RayTracer
             this.plane_label_distance.TabIndex = 17;
             this.plane_label_distance.Text = "Distance";
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(71, 106);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(18, 13);
+            this.label1.TabIndex = 18;
+            this.label1.Text = "R:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(123, 106);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(18, 13);
+            this.label2.TabIndex = 19;
+            this.label2.Text = "G:";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(178, 106);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(18, 13);
+            this.label3.TabIndex = 20;
+            this.label3.Text = "R:";
+            // 
             // ObjectForm
             // 
-            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.ClientSize = new System.Drawing.Size(234, 189);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.plane_label_distance);
             this.Controls.Add(this.plane_label_normal);
             this.Controls.Add(this.sphere_txtbox_radius);
@@ -222,8 +236,6 @@ namespace RayTracer
             this.Controls.Add(this.color_txtbox_b);
             this.Controls.Add(this.color_txtbox_g);
             this.Controls.Add(this.color_txtbox_r);
-            this.Controls.Add(this.sphere_label_comma3);
-            this.Controls.Add(this.sphere_label_comma4);
             this.Controls.Add(this.txtbox_z);
             this.Controls.Add(this.txtbox_y);
             this.Controls.Add(this.txtbox_x);
@@ -232,6 +244,8 @@ namespace RayTracer
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.sphere_label_comma1);
             this.Controls.Add(this.sphere_label_comma2);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.label2);
             this.Name = "ObjectForm";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -270,20 +284,28 @@ namespace RayTracer
             switch (selection)
             {
                 case "Plane":
-                    double plane_normal_x = Convert.ToDouble(txtbox_x.Text);
-                    double plane_normal_y = Convert.ToDouble(txtbox_y.Text);
-                    double plane_normal_z = Convert.ToDouble(txtbox_z.Text);
+                    try {
+                        double plane_normal_x = Convert.ToDouble(txtbox_x.Text);
+                        double plane_normal_y = Convert.ToDouble(txtbox_y.Text);
+                        double plane_normal_z = Convert.ToDouble(txtbox_z.Text);
 
-                    double plane_color_r = Convert.ToDouble(color_txtbox_r.Text);
-                    double plane_color_g = Convert.ToDouble(color_txtbox_g.Text);
-                    double plane_color_b = Convert.ToDouble(color_txtbox_b.Text);
+                        double plane_color_r = Convert.ToDouble(color_txtbox_r.Text);
+                        double plane_color_g = Convert.ToDouble(color_txtbox_g.Text);
+                        double plane_color_b = Convert.ToDouble(color_txtbox_b.Text);
 
-                    Color color = new Color(plane_color_r, plane_color_g, plane_color_b);
-                    Vector normal = new Vector(plane_normal_x, plane_normal_y, plane_normal_z);
-                    double distance = Convert.ToDouble(sphere_txtbox_radius.Text);
+                        Color color = new Color(plane_color_r, plane_color_g, plane_color_b);
+                        Vector normal = new Vector(plane_normal_x, plane_normal_y, plane_normal_z);
+                        double distance = Convert.ToDouble(sphere_txtbox_radius.Text);
 
-                    o = new Plane(normal, distance, color);
-                    Console.WriteLine("Plane Created");
+                        o = new Plane(normal, distance, color);
+                        RayTracer_Form.objects.AddLast(o);
+                        parent.updateObjects();
+                        Console.WriteLine("Plane Created");
+                    }
+                    catch(Exception ex)
+                    {
+                        Console.WriteLine(ex);
+                    }
                     break;
                 case "Sphere":
                     try
@@ -300,6 +322,8 @@ namespace RayTracer
                         double radius = Convert.ToDouble(sphere_txtbox_radius.Text);
                         Color c = new Color(sphere_r, sphere_g, sphere_b);
                         o = new Sphere(radius, center, c);
+                        RayTracer_Form.objects.AddLast(o);
+                        parent.updateObjects();
                         Console.WriteLine("Sphere Created");
                     }
                     catch (Exception ex)
@@ -311,8 +335,11 @@ namespace RayTracer
                     return;
             }
             this.Hide();
-            RayTracer_Form.objects.AddLast(o);
-            parent.updateObjects();
+        }
+
+        private void txtbox_y_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 

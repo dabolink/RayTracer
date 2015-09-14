@@ -16,3 +16,5 @@ C:\Projects\RayTracer\RayTracer\obj\Debug\RayTracer.RayTracer_Form.resources
 C:\Projects\RayTracer\RayTracer\obj\Debug\RayTracer.csproj.GenerateResource.Cache
 C:\Projects\RayTracer\RayTracer\obj\Debug\RayTracer.Properties.Resources.resources
 C:\Projects\RayTracer\RayTracer\obj\Debug\RayTracer.ObjectForm.resources
+D:\Projects\CSharp\RayTracer\RayTracer\obj\Debug\RayTracer.ObjectForm.resources
+D:\Projects\CSharp\RayTracer\RayTracer\obj\Debug\RayTracer.Properties.Resources.resources
