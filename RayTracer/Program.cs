@@ -14,33 +14,34 @@ namespace RayTracer
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new RayTracer_Form());
+           Application.Run(new RayTracer_Form());
         }
-        public static Bitmap run_raytracer(LinkedList<Object> objects, LinkedList<LightSource> lights, Camera c) {
+        public static Bitmap run_raytracer(LinkedList<Object> objects, LinkedList<LightSource> lights, Camera c, Size size) {
             Console.WriteLine("Daniel Bolink's Ray Tracer");
 
             //image size
-            int width = 500;
-            int height = 500;
+            int width = size.Width;
+            int height = size.Height;
+
             // Create Camera
             //Camera c = new Camera(new Position(0, 0, -10), new Position(0,0,0));
-            
+
             //create colors
             Color BGColor = new Color(0, 0, 0);
-            Color BLACK = new Color(0, 0, 0);
-            Color WHITE = new Color(255, 255, 255);
-            Color GREEN = new Color(0, 255, 0);
-            Color YELLOW = new Color(255, 255, 0);
-            Color ORANGE = new Color(255, 0, 255);
-            Color RED = new Color(200, 0, 0);
-            Color BLUE = new Color(0, 0, 255);
+            //Color BLACK = new Color(0, 0, 0);
+            //Color WHITE = new Color(255, 255, 255);
+            //Color GREEN = new Color(0, 255, 0);
+            //Color YELLOW = new Color(255, 255, 0);
+            //Color ORANGE = new Color(255, 0, 255);
+            //Color RED = new Color(200, 0, 0);
+            //Color BLUE = new Color(0, 0, 255);
             //create Objects in frame
 
             //red plane at below 10 units
-            Object p1 = new Plane(new Vector(0, 1, 0), -1, RED);
+            //Object p1 = new Plane(new Vector(0, 1, 0), -1, RED);
             //blue sphere 10 units ahead radis 0.5
-            Object s1 = new Sphere(1, new Position(0, 0, 0), BLACK);
-            Object s2 = new Sphere(1, new Position(2, 0, 0), ORANGE);
+            //Object s1 = new Sphere(1, new Position(0, 0, 0), BLACK);
+            //Object s2 = new Sphere(1, new Position(2, 0, 0), ORANGE);
 
             //add Objects to list
             //objects.AddLast(s1);
@@ -48,13 +49,12 @@ namespace RayTracer
             //objects.AddLast(s2);
 
             //add Light Sources
-            LightSource l1 = new LightSource(new Position(20, 5, 10), WHITE);
-            LightSource l2 = new LightSource(new Position(-20, 5, 10), BLUE);
+            //LightSource l1 = new LightSource(new Position(20, 5, 10), WHITE);
+            //LightSource l2 = new LightSource(new Position(-20, 5, 10), BLUE);
 
             //add lightsources to linked list
-            LinkedList<LightSource> lightsources = lights;
-            //lightsources.AddLast(l1);
-            //lightsources.AddLast(l2);
+            //lights.AddLast(l1);
+            //lights.AddLast(l2);
             
             // Create Pixels
             Color[,] pixels = new Color[width, height];
@@ -103,11 +103,12 @@ namespace RayTracer
                         if(winner.val > 0)
                         {
                             Color final_color = winner.obj.color;
-                            Position intersection_point = ray.origin + (ray.direction * (winner.val*0.999));
-                            foreach (LightSource l in lightsources)
+                            Position intersection_point = ray.origin + (ray.direction * (winner.val * 0.999));
+                            foreach (LightSource l in lights)
                             {
                                 Boolean shadowed = false;
-                                Vector light_direction = new Vector(intersection_point, l.origin).normalize();
+                                Vector light_direction = new Vector(l.origin, intersection_point).normalize();
+                                //Vector light_direction = new Vector(intersection_point, l.origin).normalize();
                                 Ray shadow_ray = new Ray(intersection_point, light_direction);
                                 foreach(Object o in objects)
                                 {

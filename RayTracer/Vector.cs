@@ -27,7 +27,6 @@ namespace RayTracer
         public double x { get; set; }
         public double y { get; set; }
         public double z { get; set; }
-        public double length { get; set; }
 
         //overload operators
         public static Vector operator +(Vector v1, Vector v2)
@@ -40,7 +39,7 @@ namespace RayTracer
         }
         public static Vector operator -(Vector v1, Vector v2)
         {
-            return v1 + -v2;
+            return new Vector(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z);
         }
         public static Vector operator *(Vector v, double s)
         {
@@ -56,7 +55,7 @@ namespace RayTracer
         }
         public static Vector operator -(Position p, Vector v)
         {
-            return v - p;
+            return new Vector(p.x-v.x, p.y-v.y, p.z-v.z);
         }
         //functions
         public double magnitude()
@@ -79,7 +78,7 @@ namespace RayTracer
         }
         public override string ToString()
         {
-            return "(" + this.x + "," + this.y + "," + this.z + ")" + " ||" + length + "||";
+            return "(" + this.x + "," + this.y + "," + this.z + ")" + " ||" + magnitude() + "||";
         }
     }
 }

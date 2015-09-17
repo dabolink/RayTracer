@@ -50,6 +50,9 @@
   <ItemGroup>
     <Compile Include="Camera.cs" />
     <Compile Include="Color.cs" />
+    <Compile Include="LightForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="LightSource.cs" />
     <Compile Include="Object.cs" />
     <Compile Include="ObjectForm.cs">
@@ -76,6 +79,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="LightForm.resx">
+      <DependentUpon>LightForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ObjectForm.resx">
       <DependentUpon>ObjectForm.cs</DependentUpon>
     </EmbeddedResource>

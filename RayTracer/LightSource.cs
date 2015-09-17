@@ -9,5 +9,9 @@
         }
         public Color color { get; set; }
         public Position origin { get; set; }
+        public override string ToString()
+        {
+            return "Light Source: " + origin;
+        }
     }
 }

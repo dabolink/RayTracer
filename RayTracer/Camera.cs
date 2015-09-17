@@ -21,14 +21,19 @@ namespace RayTracer
 
             //determine camera Coord System
 
-            Vector diff = new Vector(position.x - lookAt.x, position.y - lookAt.y, position.z - lookAt.z);
-            this.direction = (-diff).normalize();
-            this.right = new Vector(0, 1, 0).cross(direction).normalize();
-            this.down = right.cross(direction);
+            update();
         }
 
         public Camera() : this(new Position(3,1.5,-4), new Position(0,0,0))
         {
+        }
+
+        internal void update()
+        {
+            Vector diff = new Vector(position, lookAt);
+            this.direction = -diff.normalize();
+            this.right = new Vector(0, 1, 0).cross(direction).normalize();
+            this.down = -right.cross(direction);
         }
     }
 }

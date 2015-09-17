@@ -18,14 +18,14 @@ namespace RayTracer
             double discriminant = Math.Pow(b, 2) - 4 * c;
             if (discriminant > 0)
             {
-                double root = ((-1 * b - Math.Sqrt(discriminant)) / 2) - 0.00001;
+                double root = ((-1 * b - Math.Sqrt(discriminant)) / 2);
                 if (root > 0)
                 {
                     return root;
                 }
                 else
                 {
-                    return ((Math.Sqrt(discriminant) - b) / 2) - 0.00001;
+                    return ((-b + Math.Sqrt(discriminant)) / 2);
                 }
             }
             else
@@ -35,7 +35,11 @@ namespace RayTracer
         }
         public override Vector getNormalAt(Position point)
         {
-            return new Vector(point ,center);
+            return new Vector(point, center);
+        }
+        public override string ToString()
+        {
+            return "Sphere: " + center + ", " + radius ;
         }
     }
 }

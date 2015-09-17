@@ -36,6 +36,7 @@ namespace RayTracer
         private Button sync_btn;
         private Camera camera;
         private Position cam_pos;
+        private Button button5;
         private Position lookat;
 
         public RayTracer_Form()
@@ -67,6 +68,7 @@ namespace RayTracer
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
+            this.button5 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -129,7 +131,7 @@ namespace RayTracer
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(423, 175);
+            this.label2.Location = new System.Drawing.Point(423, 215);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(35, 13);
             this.label2.TabIndex = 6;
@@ -137,26 +139,28 @@ namespace RayTracer
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(426, 292);
+            this.button3.Location = new System.Drawing.Point(426, 332);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(72, 23);
             this.button3.TabIndex = 9;
             this.button3.Text = "Remove";
             this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(504, 292);
+            this.button4.Location = new System.Drawing.Point(504, 332);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(42, 23);
             this.button4.TabIndex = 8;
             this.button4.Text = "Add";
             this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // listBox2
             // 
             this.listBox2.FormattingEnabled = true;
-            this.listBox2.Location = new System.Drawing.Point(426, 191);
+            this.listBox2.Location = new System.Drawing.Point(426, 231);
             this.listBox2.Name = "listBox2";
             this.listBox2.Size = new System.Drawing.Size(120, 95);
             this.listBox2.TabIndex = 7;
@@ -278,9 +282,20 @@ namespace RayTracer
             this.label7.TabIndex = 17;
             this.label7.Text = "LookAt";
             // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(504, 162);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(42, 23);
+            this.button5.TabIndex = 23;
+            this.button5.Text = "Edit";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
             // RayTracer_Form
             // 
             this.ClientSize = new System.Drawing.Size(776, 461);
+            this.Controls.Add(this.button5);
             this.Controls.Add(this.txtbox_lookat_x);
             this.Controls.Add(this.txtbox_lookat_y);
             this.Controls.Add(this.txtbox_lookat_z);
@@ -316,7 +331,7 @@ namespace RayTracer
         {
             sync_btn.Text = "Loading...";
             sync_btn.Enabled = false;
-            pictureBox1.Image = Program.run_raytracer(objects, lights, camera);
+            pictureBox1.Image = Program.run_raytracer(objects, lights, camera, pictureBox1.Size);
             sync_btn.Enabled = true;
             sync_btn.Text = "ReDraw";
         }
@@ -324,17 +339,24 @@ namespace RayTracer
         private void RayTracer_Form_Load(object sender, System.EventArgs e)
         {
             objects = new LinkedList<Object>();
-            lights = new LinkedList<LightSource>();
+            lights = new LinkedList<LightSource>(); 
 
-            cam_pos = new Position(0,-1,5);
-            lookat = new Position(0,0,0);
+            objects.AddLast(new Plane(new Vector(0, 1, 0), -1, new Color(255, 0, 0)));
+            objects.AddLast(new Sphere(1, new Position(0, 0, 0), new Color(0, 255, 0)));
+
+            cam_pos = new Position(0, 1, -5);
+            lookat = new Position(0, 0, 0);
 
             Color WHITE = new Color(255, 255, 255);
-            LightSource l1 = new LightSource(new Position(20, 5, 10), WHITE);
+            LightSource l1 = new LightSource(new Position(0, 1, -10), WHITE);
             lights.AddLast(l1);
             this.camera = new Camera(cam_pos, lookat);
-            pictureBox1.Image = Program.run_raytracer(objects, lights, camera);
+            pictureBox1.Image = Program.run_raytracer(objects, lights, camera, pictureBox1.Size);
             pictureBox1.Refresh();
+
+            updateObjects();
+            updateLights();
+
         }
         //create object
         private void button1_Click(object sender, System.EventArgs e)
@@ -349,6 +371,14 @@ namespace RayTracer
             foreach(Object o in objects)
             {
                 listBox1.Items.Add(o);       
+            }
+        }
+        public void updateLights()
+        {
+            listBox2.Items.Clear();
+            foreach(LightSource l in lights)
+            {
+                listBox2.Items.Add(l);
             }
         }
         //remove object
@@ -368,10 +398,12 @@ namespace RayTracer
                 cam_pos.x = Convert.ToDouble(txtbox_camera_x.Text);
                 cam_pos.y = Convert.ToDouble(txtbox_camera_y.Text);
                 cam_pos.z = Convert.ToDouble(txtbox_camera_z.Text);
+                this.camera.update();
+                Console.WriteLine("CamLookAt updated");
             }
             catch
             {
-
+                Console.WriteLine("error converting to double: CamPos");
             }
             
         }
@@ -383,11 +415,37 @@ namespace RayTracer
                 lookat.x = Convert.ToDouble(txtbox_lookat_x.Text);
                 lookat.y = Convert.ToDouble(txtbox_lookat_y.Text);
                 lookat.z = Convert.ToDouble(txtbox_lookat_z.Text);
+
+                this.camera.update();
+                Console.WriteLine("CamLookAt updated");
             }
             catch
             {
-
+                Console.WriteLine("error converting to double: CamLookAt");
             }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            Form lightForm = new LightForm(this);
+            lightForm.Show();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (lights.Remove((LightSource)listBox2.SelectedItem))
+            {
+                listBox2.Items.Remove(listBox2.SelectedItem);
+                Console.WriteLine("object removed");
+            }
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            Object o = (Object)listBox1.SelectedItem;
+            Console.WriteLine(o);
+            Form obj_form = new ObjectForm(this, o);
+            obj_form.Show();
         }
     }
 }

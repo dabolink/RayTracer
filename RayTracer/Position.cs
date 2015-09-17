@@ -13,7 +13,7 @@
         public double z { get; set; }
         public override string ToString()
         {
-            return "(" + x + "," + y + "," + z + ")";
+            return "(" + x + "," + y + "," + z + ")"; 
         }
         public static Position operator+(Position p, Vector v)
         {

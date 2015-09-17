@@ -18,3 +18,4 @@ C:\Projects\RayTracer\RayTracer\obj\Debug\RayTracer.Properties.Resources.resourc
 C:\Projects\RayTracer\RayTracer\obj\Debug\RayTracer.ObjectForm.resources
 D:\Projects\CSharp\RayTracer\RayTracer\obj\Debug\RayTracer.ObjectForm.resources
 D:\Projects\CSharp\RayTracer\RayTracer\obj\Debug\RayTracer.Properties.Resources.resources
+C:\Projects\RayTracer\RayTracer\obj\Debug\RayTracer.LightForm.resources

@@ -7,7 +7,7 @@ namespace RayTracer
         public Plane(Vector normal, double distance, Color color)
         {
             this.distance = distance;
-            this.normal = normal;
+            this.normal = normal.normalize();
             this.color = color;
         }
         public override Vector getNormalAt(Position point)
@@ -22,10 +22,14 @@ namespace RayTracer
             {
                 return -1;
             }
-            double b = normal.dot(ray.origin - (normal * distance));
+            double b = normal.dot((ray.origin - (normal * distance)));
             double n = -1 * b / a;
             return n;
         }
         public double distance { get; set; }
+        public override string ToString()
+        {
+            return "Plane: " + normal + ", " + distance;
+        }
     }
 }
